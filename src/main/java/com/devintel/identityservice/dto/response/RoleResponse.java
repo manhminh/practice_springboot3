@@ -5,17 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserResponse {
-    private String username;
-    private String firstName;
-    private String lastName;
-    private LocalDate dob;
-    private Set<RoleResponse> roles;
+public class RoleResponse {
+    private String name;
+    private String description;
+    private Set<PermissionResponse> permissions;
 }

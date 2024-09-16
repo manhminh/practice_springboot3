@@ -53,9 +53,11 @@ public class UserController {
         return userService.getUser(userId);
     }
 
-    @PostAuthorize("hasRole('ADMIN')")
     @PutMapping("/{userId}")
     UserResponse updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("Username: {}", authentication.getName());
+        authentication.getAuthorities().forEach(r -> log.info("Role: {}", r.getAuthority()));
         return userService.updateUser(userId, request);
     }
 

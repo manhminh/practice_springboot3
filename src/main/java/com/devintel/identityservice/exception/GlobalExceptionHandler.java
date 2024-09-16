@@ -30,8 +30,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = AppException.class)
     public ResponseEntity<ApiResponse<String>> handlingAppException(AppException ex) {
         ErrorCode errorCode = ex.getErrorCode();
-
-        return ResponseEntity.status(errorCode.getCode()).body(
+        log.info("ErrorCode: " + errorCode);
+        return ResponseEntity.status(errorCode.getStatusCode()).body(
                 ApiResponse.<String>builder()
                         .code(errorCode.getCode())
                         .message(errorCode.getMessage())
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
             errorCode = ErrorCode.INVALID_KEY;
         }
 
-        return ResponseEntity.status(errorCode.getCode()).body(
+        return ResponseEntity.status(errorCode.getStatusCode()).body(
                 ApiResponse.<String>builder()
                         .code(errorCode.getCode())
                         .message(errorCode.getMessage())
