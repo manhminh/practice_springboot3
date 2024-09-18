@@ -42,9 +42,10 @@ public class UserService {
 
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        HashSet<String> roles = new HashSet<>();
-//        roles.add(Role.USER.name());
-//        user.setRoles(roles);
+        HashSet<Role> roles = new HashSet<>();
+        Role roleUser = roleRepository.findById("USER").orElseThrow(() -> new RuntimeException("Role not found"));
+        roles.add(roleUser);
+        user.setRoles(roles);
 
         user = userRepository.save(user);
         log.info("User created: {}", user);

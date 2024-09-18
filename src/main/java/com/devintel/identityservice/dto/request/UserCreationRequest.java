@@ -1,5 +1,8 @@
 package com.devintel.identityservice.dto.request;
 
+import com.devintel.identityservice.validator.DobConstraint;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,5 +21,7 @@ public class UserCreationRequest {
     private String password;
     private String firstName;
     private String lastName;
+
+    @DobConstraint(min = 18, message = "INVALID_DOB")
     private LocalDate dob;
 }
