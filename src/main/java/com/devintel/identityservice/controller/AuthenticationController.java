@@ -1,5 +1,7 @@
 package com.devintel.identityservice.controller;
 
+import com.devintel.identityservice.dto.request.LogoutRequest;
+import com.devintel.identityservice.dto.request.RefreshTokenRequest;
 import com.devintel.identityservice.dto.response.AuthenticationResponse;
 import com.devintel.identityservice.dto.request.AuthenticationRequest;
 import com.devintel.identityservice.dto.request.IntrospectRequest;
@@ -37,6 +39,23 @@ public class AuthenticationController {
         IntrospectResponse result = authenticationService.introspect(request);
 
         return ApiResponse.<IntrospectResponse>builder()
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    public ApiResponse<Void> logout(@RequestBody LogoutRequest request) throws ParseException, JOSEException {
+        authenticationService.logout(request);
+
+        return ApiResponse.<Void>builder()
+                .build();
+    }
+
+    @PostMapping("/refreshToken")
+    public ApiResponse<AuthenticationResponse> refreshToken(@RequestBody RefreshTokenRequest request) throws ParseException, JOSEException {
+        AuthenticationResponse result = authenticationService.refreshToken(request);
+
+        return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
                 .build();
     }
