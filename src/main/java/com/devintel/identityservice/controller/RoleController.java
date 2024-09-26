@@ -1,14 +1,16 @@
 package com.devintel.identityservice.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import com.devintel.identityservice.dto.request.RoleRequest;
 import com.devintel.identityservice.dto.response.ApiResponse;
 import com.devintel.identityservice.dto.response.RoleResponse;
 import com.devintel.identityservice.service.RoleService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/roles")
@@ -34,8 +36,6 @@ public class RoleController {
     @DeleteMapping("/{role}")
     public ApiResponse<Void> deletePermission(@PathVariable String role) {
         roleService.deleteRole(role);
-        return ApiResponse.<Void>builder()
-                .message("Role deleted successfully")
-                .build();
+        return ApiResponse.<Void>builder().message("Role deleted successfully").build();
     }
 }

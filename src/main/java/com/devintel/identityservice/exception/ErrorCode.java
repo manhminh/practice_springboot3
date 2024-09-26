@@ -1,11 +1,11 @@
 package com.devintel.identityservice.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
@@ -19,7 +19,6 @@ public enum ErrorCode {
     UNAUTHENTICATED(1005, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1006, "You don't have permission", HttpStatus.FORBIDDEN),
     INVALID_DOB(1007, "The age must be at least {min} years old", HttpStatus.BAD_REQUEST);
-
 
     private int code;
 

@@ -1,11 +1,7 @@
 package com.devintel.identityservice.controller;
 
-import com.devintel.identityservice.dto.request.UserCreationRequest;
-import com.devintel.identityservice.dto.response.UserResponse;
-import com.devintel.identityservice.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -16,11 +12,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.time.LocalDate;
+import com.devintel.identityservice.dto.request.UserCreationRequest;
+import com.devintel.identityservice.dto.response.UserResponse;
+import com.devintel.identityservice.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
 @Slf4j
@@ -39,7 +40,7 @@ public class UserControllerTest {
     private LocalDate dob;
 
     @BeforeEach
-    public void initData()  {
+    public void initData() {
         dob = LocalDate.of(1990, 1, 1);
         userCreationRequest = UserCreationRequest.builder()
                 .username("test")
@@ -64,13 +65,10 @@ public class UserControllerTest {
         objectMapper.registerModule(new JavaTimeModule());
         String content = objectMapper.writeValueAsString(userCreationRequest);
 
-        Mockito.when(userService.createUser(ArgumentMatchers.any()))
-                .thenReturn(userResponse);
+        Mockito.when(userService.createUser(ArgumentMatchers.any())).thenReturn(userResponse);
 
         // WHEN
-        mockMvc.perform(
-                MockMvcRequestBuilders
-                        .post("/users")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .contentType("application/json")
                         .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -86,15 +84,12 @@ public class UserControllerTest {
         objectMapper.registerModule(new JavaTimeModule());
         String content = objectMapper.writeValueAsString(userCreationRequest);
 
-        Mockito.when(userService.createUser(ArgumentMatchers.any()))
-                .thenReturn(userResponse);
+        Mockito.when(userService.createUser(ArgumentMatchers.any())).thenReturn(userResponse);
 
         // WHEN
-        mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .post("/users")
-                                .contentType("application/json")
-                                .content(content))
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
+                        .contentType("application/json")
+                        .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("1000"))
                 .andExpect(MockMvcResultMatchers.jsonPath("result.username").value("test"));
@@ -110,11 +105,9 @@ public class UserControllerTest {
         String content = objectMapper.writeValueAsString(userCreationRequest);
 
         // WHEN
-        mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .post("/users")
-                                .contentType("application/json")
-                                .content(content))
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
+                        .contentType("application/json")
+                        .content(content))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("1003"))
                 .andExpect(MockMvcResultMatchers.jsonPath("message").value("Password must be at least 8 characters"));

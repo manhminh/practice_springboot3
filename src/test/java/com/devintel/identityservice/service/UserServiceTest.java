@@ -1,14 +1,11 @@
 package com.devintel.identityservice.service;
 
-import com.devintel.identityservice.dto.request.UserCreationRequest;
-import com.devintel.identityservice.dto.response.UserResponse;
-import com.devintel.identityservice.entity.Role;
-import com.devintel.identityservice.entity.User;
-import com.devintel.identityservice.exception.AppException;
-import com.devintel.identityservice.repository.RoleRepository;
-import com.devintel.identityservice.repository.UserRepository;
-import lombok.With;
-import lombok.extern.slf4j.Slf4j;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,11 +17,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 
-import java.time.LocalDate;
-import java.util.Optional;
+import com.devintel.identityservice.dto.request.UserCreationRequest;
+import com.devintel.identityservice.dto.response.UserResponse;
+import com.devintel.identityservice.entity.Role;
+import com.devintel.identityservice.entity.User;
+import com.devintel.identityservice.exception.AppException;
+import com.devintel.identityservice.repository.RoleRepository;
+import com.devintel.identityservice.repository.UserRepository;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
 @Slf4j
@@ -49,7 +50,7 @@ public class UserServiceTest {
     private LocalDate dob;
 
     @BeforeEach
-    public void initData()  {
+    public void initData() {
         dob = LocalDate.of(1990, 1, 1);
         userCreationRequest = UserCreationRequest.builder()
                 .username("test")
@@ -75,9 +76,7 @@ public class UserServiceTest {
                 .dob(dob)
                 .build();
 
-        role = Role.builder()
-                .name("USER")
-                .build();
+        role = Role.builder().name("USER").build();
     }
 
     @Test
@@ -100,9 +99,7 @@ public class UserServiceTest {
         Mockito.when(userRepository.existsByUsername(anyString())).thenReturn(true);
 
         // WHEN
-        AppException exception = assertThrows(AppException.class, () ->
-            userService.createUser(userCreationRequest)
-        );
+        AppException exception = assertThrows(AppException.class, () -> userService.createUser(userCreationRequest));
 
         // THEN
         Assertions.assertThat(exception.getErrorCode().getCode()).isEqualTo(1002);

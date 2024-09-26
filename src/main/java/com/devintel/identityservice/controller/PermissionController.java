@@ -1,15 +1,16 @@
 package com.devintel.identityservice.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import com.devintel.identityservice.dto.request.PermissionRequest;
 import com.devintel.identityservice.dto.response.ApiResponse;
 import com.devintel.identityservice.dto.response.PermissionResponse;
 import com.devintel.identityservice.service.PermissionService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/permissions")
@@ -34,7 +35,7 @@ public class PermissionController {
 
     @DeleteMapping("/{permission}")
     public ApiResponse<Void> deletePermission(@PathVariable String permission) {
-       permissionService.deletePermission(permission);
+        permissionService.deletePermission(permission);
         return ApiResponse.<Void>builder()
                 .message("Permission deleted successfully")
                 .build();

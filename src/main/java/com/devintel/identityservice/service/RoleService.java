@@ -1,5 +1,11 @@
 package com.devintel.identityservice.service;
 
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.devintel.identityservice.dto.request.RoleRequest;
 import com.devintel.identityservice.dto.response.RoleResponse;
 import com.devintel.identityservice.entity.Permission;
@@ -7,12 +13,8 @@ import com.devintel.identityservice.entity.Role;
 import com.devintel.identityservice.mapper.RoleMapper;
 import com.devintel.identityservice.repository.PermissionRepository;
 import com.devintel.identityservice.repository.RoleRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -41,8 +43,7 @@ public class RoleService {
     }
 
     public void deleteRole(String id) {
-        Role role = roleRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Role not found"));
+        Role role = roleRepository.findById(id).orElseThrow(() -> new RuntimeException("Role not found"));
         roleRepository.deleteById(role.getName());
     }
 }

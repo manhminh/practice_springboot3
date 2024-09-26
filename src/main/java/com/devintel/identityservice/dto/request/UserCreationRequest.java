@@ -1,15 +1,15 @@
 package com.devintel.identityservice.dto.request;
 
-import com.devintel.identityservice.validator.DobConstraint;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
+
 import jakarta.validation.constraints.Size;
+
+import com.devintel.identityservice.validator.DobConstraint;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -17,8 +17,10 @@ import java.time.LocalDate;
 @Builder
 public class UserCreationRequest {
     private String username;
+
     @Size(min = 8, message = "PASSWORD_INVAlID")
     private String password;
+
     private String firstName;
     private String lastName;
 

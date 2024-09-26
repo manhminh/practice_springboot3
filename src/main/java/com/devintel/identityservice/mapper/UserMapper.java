@@ -1,12 +1,13 @@
 package com.devintel.identityservice.mapper;
 
-import com.devintel.identityservice.entity.User;
-import com.devintel.identityservice.dto.request.UserCreationRequest;
-import com.devintel.identityservice.dto.request.UserUpdateRequest;
-import com.devintel.identityservice.dto.response.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+
+import com.devintel.identityservice.dto.request.UserCreationRequest;
+import com.devintel.identityservice.dto.request.UserUpdateRequest;
+import com.devintel.identityservice.dto.response.UserResponse;
+import com.devintel.identityservice.entity.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

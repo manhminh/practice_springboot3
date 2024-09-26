@@ -1,23 +1,23 @@
 package com.devintel.identityservice.config;
 
-import com.devintel.identityservice.entity.Role;
-import com.devintel.identityservice.entity.User;
-import com.devintel.identityservice.repository.RoleRepository;
-import com.devintel.identityservice.repository.UserRepository;
+import java.util.HashSet;
+
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.devintel.identityservice.entity.Role;
+import com.devintel.identityservice.entity.User;
+import com.devintel.identityservice.repository.RoleRepository;
+import com.devintel.identityservice.repository.UserRepository;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.HashSet;
 
 @Configuration
 @RequiredArgsConstructor
@@ -34,10 +34,10 @@ public class ApplicationInitConfig {
     static final String ADMIN_PASSWORD = "admin";
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring",
+    @ConditionalOnProperty(
+            prefix = "spring",
             value = "datasource.driver-class-name",
-            havingValue = "com.mysql.cj.jdbc.Driver"
-    )
+            havingValue = "com.mysql.cj.jdbc.Driver")
     ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository) {
         log.info("Initializing application.....");
         return args -> {

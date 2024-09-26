@@ -1,10 +1,11 @@
 package com.devintel.identityservice.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.*;
 
-import java.util.Date;
+import lombok.*;
 
 @Getter
 @Setter
@@ -15,5 +16,6 @@ import java.util.Date;
 public class InvalidatedToken {
     @Id
     private String id;
+
     private Date expireTime;
 }

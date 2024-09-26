@@ -1,20 +1,12 @@
 package com.devintel.identityservice.controller;
 
-import com.devintel.identityservice.dto.request.UserCreationRequest;
-import com.devintel.identityservice.dto.response.UserResponse;
-import com.devintel.identityservice.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -22,7 +14,12 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.time.LocalDate;
+import com.devintel.identityservice.dto.request.UserCreationRequest;
+import com.devintel.identityservice.dto.response.UserResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
 @Slf4j
@@ -40,7 +37,7 @@ public class UserControllerIntegrationTest {
     private LocalDate dob;
 
     @BeforeEach
-    public void initData()  {
+    public void initData() {
         dob = LocalDate.of(1990, 1, 1);
         userCreationRequest = UserCreationRequest.builder()
                 .username("test")
@@ -66,9 +63,7 @@ public class UserControllerIntegrationTest {
         String content = objectMapper.writeValueAsString(userCreationRequest);
 
         // WHEN, THEN
-        mockMvc.perform(
-                MockMvcRequestBuilders
-                        .post("/users")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .contentType("application/json")
                         .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())

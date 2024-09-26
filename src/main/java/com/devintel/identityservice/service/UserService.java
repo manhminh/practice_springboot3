@@ -1,24 +1,27 @@
 package com.devintel.identityservice.service;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.devintel.identityservice.dto.request.UserCreationRequest;
+import com.devintel.identityservice.dto.request.UserUpdateRequest;
+import com.devintel.identityservice.dto.response.UserResponse;
+import com.devintel.identityservice.entity.Role;
 import com.devintel.identityservice.entity.User;
 import com.devintel.identityservice.exception.AppException;
 import com.devintel.identityservice.exception.ErrorCode;
 import com.devintel.identityservice.mapper.UserMapper;
 import com.devintel.identityservice.repository.RoleRepository;
 import com.devintel.identityservice.repository.UserRepository;
-import com.devintel.identityservice.dto.request.UserCreationRequest;
-import com.devintel.identityservice.dto.request.UserUpdateRequest;
-import com.devintel.identityservice.dto.response.UserResponse;
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import com.devintel.identityservice.entity.Role;
-import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -35,8 +38,8 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserResponse createUser(UserCreationRequest request){
-        if(userRepository.existsByUsername(request.getUsername())) {
+    public UserResponse createUser(UserCreationRequest request) {
+        if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
@@ -64,21 +67,19 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(updatedUser));
     }
 
-    public void deleteUser(String userId){
+    public void deleteUser(String userId) {
         userRepository.deleteById(userId);
     }
 
-    public List<UserResponse> getUsers(){
+    public List<UserResponse> getUsers() {
         List<User> users = userRepository.findAll();
 
-        return users.stream()
-                .map(userMapper::toUserResponse)
-                .collect(Collectors.toList());
+        return users.stream().map(userMapper::toUserResponse).collect(Collectors.toList());
     }
 
-    public UserResponse getUser(String id){
-        return userMapper.toUserResponse( userRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND)));
+    public UserResponse getUser(String id) {
+        return userMapper.toUserResponse(
+                userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND)));
     }
 
     public UserResponse getMyInfo() {

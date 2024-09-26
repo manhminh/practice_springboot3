@@ -1,9 +1,9 @@
 package com.devintel.identityservice.config;
 
-import com.devintel.identityservice.dto.request.IntrospectRequest;
-import com.devintel.identityservice.dto.response.IntrospectResponse;
-import com.devintel.identityservice.service.AuthenticationService;
-import com.nimbusds.jose.JOSEException;
+import java.text.ParseException;
+import java.util.Objects;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -13,25 +13,28 @@ import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.spec.SecretKeySpec;
-import java.text.ParseException;
-import java.util.Objects;
+import com.devintel.identityservice.dto.request.IntrospectRequest;
+import com.devintel.identityservice.dto.response.IntrospectResponse;
+import com.devintel.identityservice.service.AuthenticationService;
+import com.nimbusds.jose.JOSEException;
 
 @Component
 public class CustomJwtDecoder implements JwtDecoder {
     @Value("${jwt.signedKey}")
     private String signerKey;
+
     @Autowired
     private AuthenticationService authenticationService;
+
     private NimbusJwtDecoder nimbusJwtDecoder = null;
 
     @Override
     public Jwt decode(String token) throws JwtException {
         try {
-            IntrospectResponse response = authenticationService.introspect(IntrospectRequest.builder()
-                    .token(token).build());
+            IntrospectResponse response = authenticationService.introspect(
+                    IntrospectRequest.builder().token(token).build());
 
-            if(!response.isValid()) {
+            if (!response.isValid()) {
                 throw new JwtException("Invalid token");
             }
         } catch (JOSEException | ParseException e) {
