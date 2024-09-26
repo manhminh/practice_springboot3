@@ -40,7 +40,7 @@ public class UserControllerIntegrationTest {
     public void initData() {
         dob = LocalDate.of(1990, 1, 1);
         userCreationRequest = UserCreationRequest.builder()
-                .username("test")
+                .username("test1")
                 .firstName("john")
                 .lastName("james")
                 .password("12345678")
@@ -68,6 +68,6 @@ public class UserControllerIntegrationTest {
                         .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("1000"))
-                .andExpect(MockMvcResultMatchers.jsonPath("result.username").value("test"));
+                .andExpect(MockMvcResultMatchers.jsonPath("result.username").value("test1"));
     }
 }
