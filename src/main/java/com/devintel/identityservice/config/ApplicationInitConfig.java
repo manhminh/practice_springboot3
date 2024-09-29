@@ -19,6 +19,9 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 
+import static com.devintel.identityservice.enums.Role.ADMIN;
+import static com.devintel.identityservice.enums.Role.USER;
+
 @Configuration
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -43,12 +46,12 @@ public class ApplicationInitConfig {
         return args -> {
             if (userRepository.findByUsername(ADMIN_USER_NAME).isEmpty()) {
                 roleRepository.save(Role.builder()
-                        .name(com.devintel.identityservice.enums.Role.USER.name())
+                        .name(USER.name())
                         .description("User role")
                         .build());
 
                 Role adminRole = roleRepository.save(Role.builder()
-                        .name(com.devintel.identityservice.enums.Role.ADMIN.name())
+                        .name(ADMIN.name())
                         .description("Admin role")
                         .build());
 
